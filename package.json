@@ -1,0 +1,33 @@
+{
+  "name": "statsbot",
+  "version": "0.0.1",
+  "description": "It is a simple bot project based on  node js",
+  "main": "app.js",
+  "scripts": {
+    "test": "npm start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/dusskapark/statsbot.git"
+  },
+  "keywords": [
+    "line",
+    "message",
+    "api"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/dusskapark/statsbot/issues"
+  },
+  "homepage": "https://github.com/dusskapark/statsbot#readme",
+  "dependencies": {
+    "async": "^2.1.4",
+    "await": "^0.2.6",
+    "bluebird": "^3.4.7",
+    "body-parser": "^1.15.2",
+    "express": "^4.14.0",
+    "googleapis": "^15.0.0",
+    "request": "^2.79.0"
+  }
+}
