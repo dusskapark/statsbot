@@ -6,24 +6,26 @@ var request = require('request');
 var bodyParser = require('body-parser');
 var config = require('./cert/config.js');
 
-
+// const auth = require('./route/auth')
 // const translate = require('./route/translate'); // 메시지를 분석하고 구글 번역기를 돌립니다.
 // const apiai = require('./route/apiai'); // 메시지를 json 으로 만듦
 // const ga = require('./route/ga'); // GA에 명령어를 보내고 데이터를 수신합니다.
-// const template = require('./route/template'); // 데이터를 그래프나 테이블로 전송합니다.
+// const template = require('./route/template'); // 데이터를 그래프나 테이블로 바꿉니다.
 const reply = require('./route/reply'); // 최종적으로 메시지를 콜백합니다.
+const actionBasic = require('./action/basic'); // 명령어
+
 
 // 서버 시작
 var app = express();
 app.set('port', process.env.PORT || 3030);
 app.use(bodyParser.json());
 
-// app.get('/webhook', function(reqeust, response) {
-//     response.writeHead(200, {
-//         'Content-Type': 'text/html'
-//     });
-//     response.end('<a href="https://github.com/dusskapark/statsbot">See you on Github</a>');
-// });
+app.get('/webhook', function(reqeust, response) {
+    response.writeHead(200, {
+        'Content-Type': 'text/html'
+    });
+    response.end('<a href="https://github.com/dusskapark/statsbot">See you on Github</a>');
+});
 
 app.post('/webhook', function(request, response) {
 
@@ -38,12 +40,24 @@ app.post('/webhook', function(request, response) {
     console.log('[request messages]', eventObj.message);
 
 
+    if (message.type == "text" && message.text.indexOf("@bot||@ga") != -1) {
+        reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicExpress());
+    } else if (message.type == "text" && /^@.+/g.test(message.text)) {
+        var cmd = message.text.split('@')[1];
+        console.log('[command]', cmd);
 
-    if (message.type == "text") {
-        reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, message.text);
-    } else {
-        reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, "text please :-P");
+        if (typeof cmd !== "undefined" && cmd != "") {
+            if (cmd == "h" || cmd == "help") {
+                reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionHelp.getHelpExpress());
+            } else {
+                reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionHelp.getContactExpress())
+            }
+        }
+
     }
+
+    response.sendStatus(200);
+
 });
 
 
