@@ -11,11 +11,8 @@ module.exports.send = function(channelAccessToken, replyToken, messages) {
         method: 'POST',
         headers: headers,
         json: {
-            replyToken: replyToken,
-            "messages": [{
-                "type": "text",
-                "text": messages
-            }]
+            'replyToken': replyToken,
+            'messages': messages
         }
     };
 
