@@ -36,7 +36,7 @@ app.post('/webhook', function(request, response) {
 
     // request log
     console.log('======================', new Date(), '======================');
-    // console.log('[request]', request.body);
+    console.log('[request]', request.body);
     console.log('[request source] ', eventObj.source);
     console.log('[request messages]', eventObj.message);
 
@@ -51,7 +51,7 @@ app.post('/webhook', function(request, response) {
             if (cmd == "h" || cmd == "help") {
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionHelp.getHelpExpress());
             } else  
-                reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, cmd)
+                reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(cmd))
             }
             
         // 명령어가 아니면 else 처리  
