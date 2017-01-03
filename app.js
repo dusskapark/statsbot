@@ -52,7 +52,7 @@ app.post('/webhook', function(request, response) {
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionHelp.getHelpExpress());
             } else if (cmd == "pageviews") {
               ga.getGAdata(cmd);
-              reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, 'done');
+              reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback('done'));
             } else
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(cmd))
             }
