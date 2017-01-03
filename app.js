@@ -9,7 +9,7 @@ var config = require('./cert/config.js');
 // const auth = require('./route/auth')
 // const translate = require('./route/translate'); // 메시지를 분석하고 구글 번역기를 돌립니다.
 // const apiai = require('./route/apiai'); // 메시지를 json 으로 만듦
-// const ga = require('./route/ga'); // GA에 명령어를 보내고 데이터를 수신합니다.
+const ga = require('./route/ga'); // GA에 명령어를 보내고 데이터를 수신합니다.
 // const template = require('./route/template'); // 데이터를 그래프나 테이블로 바꿉니다.
 const reply = require('./route/reply'); // 최종적으로 메시지를 콜백합니다.
 const actionBasic = require('./route/basic'); // 명령어 모음
@@ -50,21 +50,24 @@ app.post('/webhook', function(request, response) {
         if (typeof cmd !== "undefined" && cmd != "") {
             if (cmd == "h" || cmd == "help") {
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionHelp.getHelpExpress());
-            } else  
+            } else if (cmd == "pageviews") {
+              ga.getGAdata(cmd);
+              reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, 'done');
+            } else
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(cmd))
             }
-            
-        // 명령어가 아니면 else 처리  
+
+        // 명령어가 아니면 else 처리
         } else {
-        
-        var warning =     
+
+        var warning =
         "======== Help ======== \n" +
         "잘못된 명령입니다. @h 또는 @help로 명령을 검색하십시오.\n" +
         "An invalid command. Search commands by @h or @help. \n" +
         "無効なコマンドです。 コマンドを@hまたは@helpで検索します。\n"+
         "=====================";
-        
-        
+
+
         reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(warning));
     }
 
@@ -78,9 +81,3 @@ app.post('/webhook', function(request, response) {
 app.listen(app.get('port'), function() {
     console.log('Listening on port ' + app.get('port'));
 });
-
-
-
-// API.AI를 통해서 최종적으로 아래와 같이 JSON Array 형태로 명령어를 출력함
-//
-//

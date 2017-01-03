@@ -1,20 +1,21 @@
-const
-    gapi = require("googleapis"),
-    profileid = '106249323',
-    key = require('./cert/nodejs-77d06e1a80af.json'),
-    scopes = 'https://www.googleapis.com/auth/analytics.readonly',
-    jwt = new gapi.auth.JWT(key.client_email, null, key.private_key, scopes);
+var gapi = require("googleapis");
+var profileid = '106249323';
+var key = require('../cert/nodejs-77d06e1a80af.json');
+var scopes = 'https://www.googleapis.com/auth/analytics.readonly';
+var jwt = new gapi.auth.JWT(key.client_email, null, key.private_key, scopes);
 
-module.exports.ga = jwt.authorize(function(err, response) {
+module.exports.getGAdata = jwt.authorize(function(err, request, response) {
     gapi.analytics('v3').data.ga.get({
         'auth': jwt,
         'ids': 'ga:' + profileid,
         'start-date': '7daysAgo',
         'end-date': 'today',
-        'metrics': 'ga:pageviews',
-        'dimensions': 'ga:pagePath'
+        'metrics': 'ga:'+ request
+        // 'dimensions': 'ga:pagePath'
     }, function(err, result) {
-        console.log(err, result);
+
+        console.log(result);
+
     });
 });
 
