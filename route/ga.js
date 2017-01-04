@@ -6,25 +6,33 @@ var jwt = new gapi.auth.JWT(key.client_email, null, key.private_key, scopes);
 
 
 function queryData(message) {
-    gapi.analytics('v3').data.ga.get({
-        'auth': jwt,
-        'ids': profileid,
-        'metrics': 'ga:'+message,
-        // 'dimensions': 'ga:pagePath',
-        'start-date': '7daysAgo',
-        'end-date': 'today',
-        // 'sort': '-ga:uniquePageviews',
-        'max-results': 10,
-        // 'filters': 'ga:pagePath=~/ch_[-a-z0-9]+[.]html$',
-    }, function(err, response) {
-        if (err) {
-            console.log(err);
-            return;
-        }
-        console.log(JSON.stringify(response, null, 4));
+    return new Promise((resolve, reject) => {
+        gapi.analytics('v3').data.ga.get({
+            'auth': jwt,
+            'ids': profileid,
+            'metrics': 'ga:'+message,
+            // 'dimensions': 'ga:pagePath',
+            'start-date': '7daysAgo',
+            'end-date': 'today',
+            // 'sort': '-ga:uniquePageviews',
+            'max-results': 10,
+            // 'filters': 'ga:pagePath=~/ch_[-a-z0-9]+[.]html$',
+        }, function(err, response) {
+            if (err) {
+                reject(err);
+                return;
+            } else {
+                resolve(response);
+            }
+        });
     });
 };
 
+// queryData('pageViews').then(x => {
+//     console.log(x.rows[0][0]);
+// })
+
+module.exports.queryData = queryData
 module.exports.getGAdata = function(message){
     jwt.authorize(function(err, tokens) {
         if (err) {

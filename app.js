@@ -1,8 +1,5 @@
 var express = require('express');
 var request = require('request');
-var async = require('async');
-var await = require('await');
-var request = require('request');
 var bodyParser = require('body-parser');
 var config = require('./cert/config.js');
 
@@ -40,7 +37,6 @@ app.post('/webhook', function(request, response) {
     console.log('[request source] ', eventObj.source);
     console.log('[request messages]', eventObj.message);
 
-
     if (message.type == "text" && message.text.indexOf("@bot") != -1) {
         reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicExpress());
     } else if (message.type == "text" && /^@.+/g.test(message.text)) {
@@ -50,9 +46,13 @@ app.post('/webhook', function(request, response) {
         if (typeof cmd !== "undefined" && cmd != "") {
             if (cmd == "h" || cmd == "help") {
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionHelp.getHelpExpress());
-            } else if (cmd == "pageviews") {
-              ga.getGAdata(cmd);
-              reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback('done'));
+            } else if (cmd == "pageviews" || cmd == "pv") {
+                ga.queryData(cmd).then(response => {
+                    console.log('here', response);
+                    return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(response.rows[0][0]))
+                }).catch(err => console.error(err));
+                
+                
             } else
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(cmd))
             }
