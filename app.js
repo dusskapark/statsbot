@@ -51,21 +51,21 @@ app.post('/webhook', function(request, response) {
                     console.log('here', response);
                     return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(response.rows[0][0]))
                 }).catch(err => console.error(err));
-                
-                
+
+
             } else
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(cmd))
-            }
+        }
 
         // 명령어가 아니면 else 처리
-        } else {
+    } else {
 
         var warning =
-        "======== Help ======== \n" +
-        "잘못된 명령입니다. @h 또는 @help로 명령을 검색하십시오.\n" +
-        "An invalid command. Search commands by @h or @help. \n" +
-        "無効なコマンドです。 コマンドを@hまたは@helpで検索します。\n"+
-        "=====================";
+            "======== Help ======== \n" +
+            "잘못된 명령입니다. @h 또는 @help로 명령을 검색하십시오.\n" +
+            "An invalid command. Search commands by @h or @help. \n" +
+            "無効なコマンドです。 コマンドを@hまたは@helpで検索します。\n" +
+            "=====================";
 
 
         reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(warning));
