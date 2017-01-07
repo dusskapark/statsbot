@@ -46,7 +46,7 @@ app.post('/webhook', function(request, response) {
         if (typeof cmd !== "undefined" && cmd != "") {
             if (cmd == "h" || cmd == "help") {
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionHelp.getHelpExpress());
-            } else if (cmd == "pageviews" || cmd == "pv") {
+            } else if (cmd == "pageviews") {
                 ga.queryData(cmd).then(response => {
                     console.log('here', response);
                     return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(response.rows[0][0]))
