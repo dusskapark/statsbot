@@ -17,7 +17,7 @@ module.exports.send = function(channelAccessToken, replyToken, messages) {
     };
 
     requestSender(options, function(error, response, body) {
-        console.log('response', response.statusCode);
+        console.log('response', response);
         if (!error && response.statusCode == 200) {
             console.log(body)
         } else {

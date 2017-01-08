@@ -5,7 +5,7 @@ var config = require('./cert/config.js');
 
 // const auth = require('./route/auth')
 // const translate = require('./route/translate'); // 메시지를 분석하고 구글 번역기를 돌립니다.
-// const apiai = require('./route/apiai'); // 메시지를 json 으로 만듦
+const apiai = require('./route/apiai'); // 메시지를 json 으로 만듦
 const ga = require('./route/ga'); // GA에 명령어를 보내고 데이터를 수신합니다.
 // const template = require('./route/template'); // 데이터를 그래프나 테이블로 바꿉니다.
 const reply = require('./route/reply'); // 최종적으로 메시지를 콜백합니다.
@@ -46,38 +46,36 @@ app.post('/webhook', function(request, response) {
         if (typeof cmd !== "undefined" && cmd != "") {
             if (cmd == "h" || cmd == "help") {
                 reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionHelp.getHelpExpress());
-            } else if (cmd == "pageviews") {
-                ga.queryData(cmd).then(response => {
-                    console.log('here', response);
-                    return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(response.rows[0][0]))
+            } else {
+                apiai.getQuery(cmd).then(response => {
+                    console.log('Step1:API.AI', response);
+                    return ga.queryData(response);
+                }).then(response => {
+                    console.log('Step2:GA queryData', response);
+                    response.headers
+                    return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(JSON.stringify(response)));
+                
                 }).catch(err => console.error(err));
 
+            }
+        } else {
 
-            } else
-                reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(cmd))
+            var warning =
+                "======== Help ======== \n" +
+                "잘못된 명령입니다. @h 또는 @help로 명령을 검색하십시오.\n" +
+                "An invalid command. Search commands by @h or @help. \n" +
+                "無効なコマンドです。 コマンドを@hまたは@helpで検索します。\n" +
+                "=====================";
+
+            reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(warning));
         }
 
-        // 명령어가 아니면 else 처리
-    } else {
+        response.sendStatus(200);
 
-        var warning =
-            "======== Help ======== \n" +
-            "잘못된 명령입니다. @h 또는 @help로 명령을 검색하십시오.\n" +
-            "An invalid command. Search commands by @h or @help. \n" +
-            "無効なコマンドです。 コマンドを@hまたは@helpで検索します。\n" +
-            "=====================";
-
-
-        reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(warning));
-    }
-
-    response.sendStatus(200);
-
+    };
 });
-
-
-
 
 app.listen(app.get('port'), function() {
     console.log('Listening on port ' + app.get('port'));
+
 });

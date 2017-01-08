@@ -9,7 +9,9 @@
     "parameters": {
       "metrics": ["ga:pageViews", "ga:newUsers"],
       "dimensions": ["ga:pagePath", "ga:pageTitle"],
-      "dateRange": "30daysAgo"
+      "start-date": "30daysAgo",
+      "end-date": "today",
+      "max-length": 10
     },
     "contexts": [
       {

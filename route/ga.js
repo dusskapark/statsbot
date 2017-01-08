@@ -5,19 +5,14 @@ var scopes = 'https://www.googleapis.com/auth/analytics.readonly';
 var jwt = new gapi.auth.JWT(key.client_email, null, key.private_key, scopes);
 
 
+
 function queryData(message) {
+
+    message["auth"] = jwt;
+    message["ids"] = profileid;
+    
     return new Promise((resolve, reject) => {
-        gapi.analytics('v3').data.ga.get({
-            'auth': jwt,
-            'ids': profileid,
-            'metrics': 'ga:'+message,
-            // 'dimensions': 'ga:pagePath',
-            'start-date': '7daysAgo',
-            'end-date': 'today',
-            // 'sort': '-ga:uniquePageviews',
-            'max-results': 10,
-            // 'filters': 'ga:pagePath=~/ch_[-a-z0-9]+[.]html$',
-        }, function(err, response) {
+        gapi.analytics('v3').data.ga.get(message, function(err, response) {
             if (err) {
                 reject(err);
                 return;
@@ -28,11 +23,16 @@ function queryData(message) {
     });
 };
 
-// queryData('pageViews').then(x => {
-//     console.log(x.rows[0][0]);
-// })
+// var msg = { metrics: [ 'ga:pageViews', 'ga:newUsers' ],
+//   'start-date': '30daysAgo',
+//   'end-date': 'today' }
+
+// queryData(msg).then(x => {
+//     console.log(x);
+// }).catch(err => console.error(err));
 
 module.exports.queryData = queryData
+
 module.exports.getGAdata = function(message){
     jwt.authorize(function(err, tokens) {
         if (err) {
