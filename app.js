@@ -52,9 +52,9 @@ app.post('/webhook', function(request, response) {
                     return ga.queryData(response);
                 }).then(response => {
                     console.log('Step2:GA queryData', response);
-                    response.headers
-                    return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(JSON.stringify(response)));
-                
+
+                    // return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(JSON.stringify(response)));
+
                 }).catch(err => console.error(err));
 
             }
