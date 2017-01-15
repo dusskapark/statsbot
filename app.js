@@ -11,6 +11,7 @@ const ga = require('./route/ga'); // GA에 명령어를 보내고 데이터를 �
 const reply = require('./route/reply'); // 최종적으로 메시지를 콜백합니다.
 const actionBasic = require('./route/basic'); // 명령어 모음
 const actionHelp = require('./route/help') // help 명령어
+const firebase = require('./route/firebase.js')
 
 
 // 서버 시작
@@ -51,9 +52,9 @@ app.post('/webhook', function(request, response) {
                     console.log('Step1:API.AI', response);
                     return ga.queryData(response);
                 }).then(response => {
-                    console.log('Step2:GA queryData', response);
-                    response.headers
-                    return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(JSON.stringify(response)));
+                    console.log('Step2:GA queryData');
+
+                    // return reply.send(config.CHANNEL_ACCESS_TOKEN, eventObj.replyToken, actionBasic.getBasicCallback(JSON.stringify(response)));
                 
                 }).catch(err => console.error(err));
 
