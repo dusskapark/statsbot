@@ -16,7 +16,7 @@ const actionHelp = require('./route/help'); // help 명령어
 
 // 서버 시작
 var app = express();
-app.use('/assets', express.static(__dirname + '/public'));
+app.use('/public', express.static(__dirname + '/public'));
 app.set('views', './views'); // 템플릿은 여기에 저장함
 app.set('view engine', 'jade');
 
@@ -31,7 +31,7 @@ app.get('/webhook', function(reqeust, response) {
     response.end('<a href="https://github.com/dusskapark/statsbot">See you on Github</a>');
 });
 
-// ID 파라미터를 달고 들어오는 경우, 
+// ID 파라미터를 달고 들어오는 경우,
 app.get('/:id', function(req, res) {
     var id = req.params.id;
     fs.readFile('data/' + id + '.json', 'utf8', function(err, data) {
