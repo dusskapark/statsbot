@@ -18,7 +18,7 @@ const actionHelp = require('./route/help'); // help 명령어
 var app = express();
 app.use('/assets', express.static(__dirname + '/public'));
 app.set('views', './views'); // 템플릿은 여기에 저장함
-app.set('view engine', 'pug');
+app.set('view engine', 'jade');
 
 
 app.set('port', process.env.PORT || 3030);
@@ -40,10 +40,7 @@ app.get('/:id', function(req, res) {
             res.status(500).send('Internal Server Error');
         }
         // res.send(data);
-        res.render('graph', {
-            json: data,
-            title: id
-        });
+        res.render('view', {json:data});
     });
 });
 
@@ -75,7 +72,7 @@ app.post('/webhook', function(request, response) {
                     console.log('Step1:getQuery', response);
                     return ga.queryData(response);
                 }).then(response => {
-                    console.log('Step2:queryData', response);
+                    console.log('Step2:queryData');
                     return template.getTemplate(response, message);
 
                 }).then(response => {

@@ -3,14 +3,13 @@ var fs = require('fs');
 
 function getTemplate(req, msg, res) {
     return new Promise(function(resolve, reject) {
-
         var id = msg.id;
-        var json = JSON.stringify(req);
 
-        fs.writeFile('data/' + id + '.json', json, 'utf8', function(err, data) {
-            if (err) reject(err);
-            else resolve(data);
-
+        fs.writeFile('data/' + id + '.json', req, 'utf8', (err) => {
+            if (err) throw err;
+            console.log('It\'s saved!');
         });
     });
 }
+
+module.exports.getTemplate = getTemplate

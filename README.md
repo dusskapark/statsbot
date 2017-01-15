@@ -7,7 +7,7 @@ Google 번역API -> GA API: json(English)
 GA API -> Line bot: response(data)
 Line bot -> 사용자: response(graph)
 ```
-![](/assets/001.png)
+![](/public/001.png)
 
 
 # Scenario
