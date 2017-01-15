@@ -7,7 +7,7 @@ function getQurey(message) {
           if (err) reject(err);
           else resolve(JSON.parse(data).result.parameters);
       });
-      
+
     });
 }
 
