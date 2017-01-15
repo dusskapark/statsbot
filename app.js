@@ -16,7 +16,7 @@ const actionHelp = require('./route/help'); // help 명령어
 
 // 서버 시작
 var app = express();
-app.use('/assets', express.static(__dirname + '/public'));
+app.use('/public', express.static(__dirname + '/public'));
 app.set('views', './views'); // 템플릿은 여기에 저장함
 app.set('view engine', 'jade');
 
