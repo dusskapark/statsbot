@@ -40,7 +40,7 @@ app.get('/:id', function(req, res) {
             res.status(500).send('Internal Server Error');
         }
         // res.send(data);
-        res.render('view', {json:data});
+        res.render('view', {json:JSON.stringify(data)});
     });
 });
 
