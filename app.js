@@ -3,7 +3,7 @@ var bodyParser = require('body-parser');
 var config = require('./cert/config.js');
 var fs = require('fs');
 
-// const auth = require('./route/auth')
+// const firebase = require('./route/firebase');
 // const translate = require('./route/translate'); // 메시지를 분석하고 구글 번역기를 돌립니다.
 const apiai = require('./route/apiai'); // 메시지를 json 으로 만듦
 const ga = require('./route/ga'); // GA에 명령어를 보내고 데이터를 수신합니다.
@@ -11,7 +11,6 @@ const template = require('./route/template'); // 데이터를 그래프나 테�
 const reply = require('./route/reply'); // 최종적으로 메시지를 콜백합니다.
 const actionBasic = require('./route/basic'); // 명령어 모음
 const actionHelp = require('./route/help'); // help 명령어
-// const firebase = require('./route/firebase');
 
 
 // 서버 시작
@@ -34,13 +33,19 @@ app.get('/webhook', function(reqeust, response) {
 // ID 파라미터를 달고 들어오는 경우,
 app.get('/:id', function(req, res) {
     var id = req.params.id;
+    console.log('here' + id);
     fs.readFile('data/' + id + '.json', 'utf8', function(err, data) {
         if (err) {
             console.log(err);
             res.status(500).send('Internal Server Error');
         }
         // res.send(data);
-        res.render('view', {json:JSON.stringify(data)});
+        res.render('view', {
+            title: "타이틀은 뭘 줘야하나?", 
+            type:"barchart", // 차트 타입을 정합니다.
+            json:data
+        
+        });
     });
 });
 

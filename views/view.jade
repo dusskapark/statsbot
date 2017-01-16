@@ -1,12 +1,11 @@
 doctype html
 html
-	
+	include ./includes/head.jade
 		body
-	
+			include ./includes/header.jade
 			div.container
 			div.section<!-- sections -->
 				.row
 					p=json
-
-
-include ./includes/footer.jade
+					
+			include ./includes/footer.jade
