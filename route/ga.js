@@ -3,22 +3,24 @@
 // var scopes = 'https://www.googleapis.com/auth/analytics.readonly';
 // var jwt = new gapi.auth.JWT(key.client_email, null, key.private_key, scopes);
 
-var view_id = '103842051';
+var site_id = 'onestore_app';
 var rio = require('rio');
 rio.enableDebug(false);
 
-
 function queryData(id, message) {
-    message["view_id"] = view_id;
-    
     console.log('ga.js: queryData() - message = ' + JSON.stringify(message));
     
     return new Promise((resolve, reject) => {
         console.log('ga.js: before Promise(): dir = ' + process.cwd());
         rio.e({
-            filename: "/home/ubuntu/workspace/server/R/ga.R",
-            entrypoint: 'getLineChart',
-            data: { id: id, message: message },
+            filename: "/home/ubuntu/workspace/gaplotr/plotr.R",
+            entrypoint: 'getChart',
+            data: { 
+                "site_id": site_id, 
+                "filename": id + '.png', 
+                "type": message.type,
+                "params": message.parameters
+            },
             callback: function(err, res) {
                 console.log('callback activiated: res = ' + res);
                 if (!err) {

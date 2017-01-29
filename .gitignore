@@ -40,5 +40,7 @@ jspm_packages
 
 src
 cert
-server/R
-server/scripts
+
+# gaplotr
+gaplotr/cache
+gaplotr/sites
