@@ -1,0 +1,6 @@
+{
+  "loglevel": "debug",
+  "ggplot": {
+    "dir": "/home/ubuntu/workspace/public/figure"
+  }
+}
