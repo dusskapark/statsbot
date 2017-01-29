@@ -19,10 +19,10 @@ module.exports.send = function(channelAccessToken, replyToken, messages) {
     requestSender(options, function(error, response, body) {
         console.log('response', response);
         if (!error && response.statusCode == 200) {
-            console.log(body)
+            console.log(body);
         } else {
             console.log('requestSender', error);
         }
-    })
+    });
 
 };

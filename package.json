@@ -26,9 +26,13 @@
     "bluebird": "^3.4.7",
     "body-parser": "^1.15.2",
     "express": "^4.14.0",
-    "firebase": "^3.6.5",
+    "firebase": "^3.6.7",
     "googleapis": "^15.0.0",
+    "im-resize": "^2.3.2",
     "jade": "^1.11.0",
-    "request": "^2.79.0"
+    "path": "^0.12.7",
+    "request": "^2.79.0",
+    "rio": "^2.4.1",
+    "underscore": "^1.8.3"
   }
 }

@@ -5,7 +5,7 @@ function getQurey(message) {
     return new Promise(function(resolve, reject) {
       fs.readFile('./route/' + message + '.json', 'utf8', function(err, data) {
           if (err) reject(err);
-          else resolve(JSON.parse(data).result.parameters);
+          else resolve(JSON.parse(data).result.callback[0]);
       });
 
     });

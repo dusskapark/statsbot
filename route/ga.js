@@ -1,48 +1,50 @@
-var gapi = require("googleapis");
-var profileid = 'ga:106249323';
-var key = require('../cert/nodejs-77d06e1a80af.json');
-var scopes = 'https://www.googleapis.com/auth/analytics.readonly';
-var jwt = new gapi.auth.JWT(key.client_email, null, key.private_key, scopes);
+// var gapi = require("googleapis");
+// var key = require('../cert/nodejs-77d06e1a80af.json');
+// var scopes = 'https://www.googleapis.com/auth/analytics.readonly';
+// var jwt = new gapi.auth.JWT(key.client_email, null, key.private_key, scopes);
+
+var view_id = '103842051';
+var rio = require('rio');
+rio.enableDebug(false);
 
 
-
-function queryData(message) {
-
-    message["auth"] = jwt;
-    message["ids"] = profileid;
+function queryData(id, message) {
+    message["view_id"] = view_id;
+    
+    console.log('ga.js: queryData() - message = ' + JSON.stringify(message));
     
     return new Promise((resolve, reject) => {
-        gapi.analytics('v3').data.ga.get(message, function(err, response) {
-            if (err) {
-                reject(err);
-                return;
-            } else {
-                resolve(response);
+        console.log('ga.js: before Promise(): dir = ' + process.cwd());
+        rio.e({
+            filename: "/home/ubuntu/workspace/server/R/ga.R",
+            entrypoint: 'getLineChart',
+            data: { id: id, message: message },
+            callback: function(err, res) {
+                console.log('callback activiated: res = ' + res);
+                if (!err) {
+                    console.log(res);
+                    resolve(res);
+                } else {
+                    console.log('error: ' + err);
+                    reject(err);
+                }
             }
         });
-    });
-};
-
-// var msg = { metrics: [ 'ga:pageViews', 'ga:newUsers' ],
-//   'start-date': '30daysAgo',
-//   'end-date': 'today' }
-
-// queryData(msg).then(x => {
-//     console.log(x);
-// }).catch(err => console.error(err));
-
-module.exports.queryData = queryData
-
-module.exports.getGAdata = function(message){
-    jwt.authorize(function(err, tokens) {
-        if (err) {
-            console.log(err);
-            return;
-            
-        }
-        
-        queryData(message);
-        
+        console.log('ga.js: after Promise()');
     });
 }
+
+
+//  var message = {
+//       "type": "line",
+//       "metrics": ["ga:pageViews", "ga:newUsers"],
+//       "dimensions": ["ga:pagePath", "ga:pageTitle"],
+//       "start-date": "30daysAgo",
+//       "end-date": "today",
+//       "max-length": 10
+//      };
+    
+// queryData('5562434846692', message);
+
+module.exports.queryData = queryData;
 

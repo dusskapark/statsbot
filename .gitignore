@@ -40,3 +40,5 @@ jspm_packages
 
 src
 cert
+server/R
+server/scripts

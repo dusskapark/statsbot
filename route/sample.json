@@ -6,27 +6,28 @@
     "resolvedQuery": "Let me know how the page views and new users by pages have changed in the last month.",
     "action": "request",
     "actionIncomplete": false,
-    "parameters": {
-      "metrics": ["ga:pageViews", "ga:newUsers"],
-      "dimensions": ["ga:pagePath", "ga:pageTitle"],
-      "start-date": "30daysAgo",
-      "end-date": "today",
-      "max-length": 10
-    },
-    "contexts": [
-      {
-        "name": "request",
-        "parameters": {
-          "metrics.original": ["page views", "new users"],
-          "metrics": ["ga:pageViews", "ga:newUsers"],
-          "dimensions": ["ga:pagePath", "ga:pageTitle"],
-          "dimensions.original": ["by pages"],
-          "dateRange":"30daysAgo",
-          "dateRange.original":"the last month"
-        },
-        "lifespan": 5
+    "callback": [{
+      "type": "line",
+      "parameters": {
+        "metrics": ["ga:pageViews", "ga:newUsers"],
+        "dimensions": ["ga:pagePath", "ga:pageTitle"],
+        "start-date": "30daysAgo",
+        "end-date": "today",
+        "max-length": 10
       }
-    ],
+    }],
+    "contexts": [{
+      "type": "line",
+      "parameters": {
+        "metrics.original": ["page views", "new users"],
+        "metrics": ["ga:pageViews", "ga:newUsers"],
+        "dimensions": ["ga:pagePath", "ga:pageTitle"],
+        "dimensions.original": ["by pages"],
+        "dateRange": "30daysAgo",
+        "dateRange.original": "the last month"
+      },
+      "lifespan": 5
+    }],
     "metadata": {
       "intentId": "51ee06e9-9ff5-428b-aafd-733bbd7e9978",
       "webhookUsed": "false",
@@ -34,12 +35,10 @@
     },
     "fulfillment": {
       "speech": "Let me know how the page views and new users by pages have changed in the last month",
-      "messages": [
-        {
-          "type": 0,
-          "speech": "Let me know how the page views and new users by pages have changed in the last month"
-        }
-      ]
+      "messages": [{
+        "type": 0,
+        "speech": "Let me know how the page views and new users by pages have changed in the last month"
+      }]
     },
     "score": 1
   },
