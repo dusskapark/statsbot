@@ -13,7 +13,7 @@ v <- function(...) {
   cat(base::date(), sprintf(...), '\n', file=stderr())
 }
 
-setwd('/home/ubuntu/workspace/gaplotr')
+setwd(sprintf('%s/workspace/gaplotr', Sys.getenv('HOME')))
 
 v('Start initialization of gaplotr')
 gaplotr <- gaplotr::gaplotr('config.json')
