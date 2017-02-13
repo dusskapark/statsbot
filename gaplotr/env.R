@@ -3,8 +3,6 @@
 # - start_server.R에 의해 구동됨.
 # - 수정 뒤에는 서버 재기동 필요: ./stop_server.R; ./start_server.R 
 
-library(httr)
-library(rga)
 library(jsonlite)
 library(gaplotr)
 library(stringr)

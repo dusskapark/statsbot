@@ -1,6 +1,7 @@
 {
   "loglevel": "debug",
-  "ggplot": {
-    "dir": "/home/ubuntu/workspace/public/figure"
+  "plotter": {
+    "dir": "/home/ubuntu/workspace/public/figure",
+    "fontfamily": "NanumGothic"
   }
 }
