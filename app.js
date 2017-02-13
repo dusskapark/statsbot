@@ -1,5 +1,6 @@
 // 주요 library 초기화
 const express = require('express');
+const session = require('express-session');
 const rp = require('request-promise');
 const passport = require('passport');
 const bodyParser = require('body-parser');
@@ -12,6 +13,7 @@ global.__appRoot = path.resolve(__dirname);
 global.__logger = log4js.getLogger();
 
 var app = express();
+app.use(session({ secret: 'statsbot', maxAge:null }));
 app.use(passport.initialize());
 app.use(passport.session());
 

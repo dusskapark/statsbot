@@ -3,7 +3,9 @@ const request = require('request');
 const REPLY_URL = 'https://api.line.me/v2/bot/message/reply';
 const PUSH_URL = 'https://api.line.me/v2/bot/message/push';
 
-var config = require(__appRoot + '/cert/config.js');
+var config = require('../cert/config.js');
+var stickerBasic = require('../cert/stickers/basic.json');
+var logger = require('../module/logger');
 
 var headers = {
   'Content-type': 'application/json',
@@ -15,7 +17,7 @@ var headers = {
  * 
  */
 function reply(replyToken, messages) {
-  __logger.info(`line.reply(): replyToken = ${replyToken}, messages = ${messages}`)
+  logger.info(`line.reply(): replyToken = ${replyToken}, messages = ${messages}`)
 
   var options = {
     url: REPLY_URL,
@@ -32,7 +34,7 @@ function reply(replyToken, messages) {
   return new Promise((resolve, reject) => {
     request(options, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        __logger.info('request sent');
+        logger.info('request sent');
         resolve(body);
       }
       else {
@@ -47,7 +49,7 @@ function reply(replyToken, messages) {
  * 
  */
 function push(to, messages) {
-  __logger.info(`line.push(): to = ${to}, messages = ${messages}`)
+  logger.info(`line.push(): to = ${to}, messages = ${messages}`)
 
   var options = {
     url: PUSH_URL,
@@ -64,7 +66,7 @@ function push(to, messages) {
   return new Promise((resolve, reject) => {
     request(options, function(error, response, body) {
       if (!error && response.statusCode == 200) {
-        __logger.info('request sent');
+        logger.info('request sent');
         resolve(body);
       }
       else {
@@ -75,6 +77,19 @@ function push(to, messages) {
 }
 
 module.exports = {
-  reply : reply,
-  push : push
+  reply: reply,
+  push: push
 };
+
+/**
+ * 메시지 포맷
+ *
+ */
+function format(type, body) {
+  if (type == 'text') {
+    return [{
+      "type": "text",
+      "text": body
+    }];
+  }
+}

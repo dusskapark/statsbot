@@ -11,6 +11,8 @@ const rio = require('rio');
 var analytics = google.analytics('v3');
 var OAuth2Client = google.auth.OAuth2;
 
+var logger = require('../module/logger');
+
 var site_id = 'onestore_app';
 rio.enableDebug(false);
 
@@ -19,11 +21,11 @@ rio.enableDebug(false);
  *
  */
 function getChart(id, title, query) {
-  __logger.info('getChart(): message = ', query);
+  logger.info('getChart(): message = ', query);
 
   return new Promise((resolve, reject) => {
     rio.e({
-      filename: __appRoot + "/gaplotr/from_node.R",
+      filename: global.__appRoot + "/gaplotr/from_node.R",
       entrypoint: 'getChart',
       data: {
         "site_id": site_id,
@@ -34,11 +36,11 @@ function getChart(id, title, query) {
       },
       callback: function(err, res) {
         if (!err) {
-          __logger.debug('chart generated: ', res);
+          logger.debug('chart generated: ', res);
           resolve(res);
         }
         else {
-          __logger.error('chart generation error', err);
+          logger.error('chart generation error', err);
           reject(err);
         }
       }
