@@ -3,16 +3,17 @@ const passport = require('passport');
 const google = require('passport-google-oauth20').Strategy;
 const cookieParser = require('cookie-parser');
 
-
 const SCOPES = [
   'https://www.googleapis.com/auth/userinfo.profile',
   'https://www.googleapis.com/auth/userinfo.email',
   'https://www.googleapis.com/auth/analytics.readonly'
 ];
 
-var config = require('../cert/config');
+var credentials = require('../config/credentials.json');
+var logger = require('../module/logger');
 var line = require('../module/line');
 var db = require('../module/db');
+var basic = require('../route/basic');
 
 /**
  * 메인 진입점.
@@ -32,103 +33,117 @@ module.exports = auth();
  *
  */
 function setupPassport() {
-  __logger.info('auth.js:setupPassport()');
+  logger.info('auth.js:setupPassport()');
 
   passport.use(
     new google({
-        clientID: config.passportGoogle.web.client_id,
-        clientSecret: config.passportGoogle.web.client_secret,
-        callbackURL: "/auth/google/callback"
+        clientID: credentials.google.web.client_id,
+        clientSecret: credentials.google.web.client_secret,
+        callbackURL: '/auth/google/callback'
       },
       function(accessToken, refreshToken, profile, done) {
-        __logger.info('OAuth completed :', profile);
+        logger.info('OAuth completed');
+        logger.debug('profile = ', profile);
 
-        profile.accessToken = accessToken;
-        profile.refreshToken = refreshToken;
+        var user = {
+          googleId: profile.id,
+          displayName: profile.displayName,
+          accessToken: accessToken,
+          refreshToken: refreshToken
+        };
 
-        return done(null, profile);
+        return done(null, user);
       }
     )
   );
 
   passport.serializeUser(function(user, done) {
-    __logger.info('auth.js:serializeUser()');
+    logger.info('auth.js:serializeUser(): ', user);
 
     db.user.save(user);
 
-    done(null, user.id);
+    done(null, {
+      googleId: user.googleId,
+      displayName: user.displayName
+    });
   });
 
-  passport.deserializeUser(function(id, done) {
-    __logger.info('auth.js:deserializeUser()');
-    done(null, id);
-  });
-}
+  passport.deserializeUser(function(user, done) {
+      logger.info('auth.js:deserializeUser()');
+      done(null, {
+          googleId: user.googleId,
+          displayName: user.displayName
+          });
+      });
+  }
 
-/**
- * OAuth2 구현을 위한 안내화면 및 Callback 구현
- *
- */
-function setupRouter() {
-  __logger.info('route()');
+  /**
+   * OAuth2 구현을 위한 안내화면 및 Callback 구현
+   *
+   */
+  function setupRouter() {
+    logger.info('route()');
 
-  var router = express.Router();
+    var router = express.Router();
 
-  router.get('/welcome', function(req, res) {
-    __logger.info('/auth/welcome');
-    res.send(`
+    router.get('/welcome', function(req, res) {
+      logger.info('/auth/welcome');
+      res.send(`
       <h1>링크를 눌러 로그인하라우</h1>
       <ul>
         <li><a href="google/login">Google</a></li>
       </ul>
     `);
-  });
+    });
 
-  // 로그인 시, 챗방id, 계정정보, 뷰 정보를 쿠키로 전달
-  router.get('/google/login', function(req, res) {
-    __logger.info('google oauth login()');
+    // 로그인 시, 챗방id, 계정정보, 뷰 정보를 쿠키로 전달
+    // 이미 연결된 lineId가 있는 경우, Stop
+    router.get('/google/login', function(req, res, next) {
 
-    var source = {
-      type: req.query.type,
-      chatId: req.query.id,
-      accountId: req.query.account,
-      viewId: req.query.view
-    }
+        var source = {
+          type: req.query.type,
+          lineId: req.query.id,
+          gaAccountId: req.query.account,
+          gaViewId: req.query.view
+        };
+        
+        var isNa = db.chat.findByID(source.lineId);
+        logger.info('google oauth login()', isNa);
+        
+        if (isNa == undefined){
+          req.session.source = source;
+          next();  
+        } else {
+          res.send('<script>window.close()</script>');
+          line.push(source.lineId, line.text("이 채팅방은 UA-" + isNa.gaAccountId + "에 이미 연동되고 있습니다."));
+          
+        }
+        
+      },
+      passport.authenticate('google', {
+        scope: SCOPES,
+        accessType: 'offline',
+        prompt: 'consent'
+      })
+    );
 
-    res.cookie('chats', source);
+    router.get('/google/callback',
+      passport.authenticate('google', {
+        successRedirect: '/auth/finish',
+        failureRedirect: '/auth/google/login'
+      })
+    );
 
-    passport.authenticate('google', {
-      scope: SCOPES,
-      accessType: 'offline',
-      approvalPrompt: 'force'
-    })(req, res);
-  });
+    router.get('/finish', function(req, res) {
+      logger.info('/auth/finish');
+      logger.debug('source revived in session:', req.session.passport.user.googleId, req.session.source);
 
+      // 채팅방의 정보를 저장한다. 
+      db.chat.save(req.session.passport.user.googleId, req.session.source);
+      
+      res.send('<script>window.close()</script>');
+      line.push(req.session.source.lineId, basic.getHelpExpress("Done! Welcome " + req.session.passport.user.displayName + "-san!"));
+    });
 
-  // router.get('/google/login', function(req, res) {
-  //   __logger.info('google oauth login()');
-  //   passport.authenticate('google', {
-  //     scope: SCOPES,
-  //     accessType: 'offline',
-  //     approvalPrompt: 'force'
-  //   })(req, res);
-  // });
-
-  router.get('/google/callback', [
-    function(req, res, next) {
-      // console.log(req);
-      next();
-    },
-    passport.authenticate('google', {
-      successRedirect: '/auth/finish',
-      failureRedirect: '/auth/google/login'
-    })]
-  );
-
-  router.get('/finish', function(req, res) {
-    __logger.info('/auth/finish');
-    res.send('<script>window.close()</script>');
-  });
-
-  return router;
-}
+    return router;
+  }
