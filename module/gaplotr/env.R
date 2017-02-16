@@ -3,17 +3,16 @@
 # - start_server.R에 의해 구동됨.
 # - 수정 뒤에는 서버 재기동 필요: ./stop_server.R; ./start_server.R 
 
-library(jsonlite)
 library(gaplotr)
-library(stringr)
+library(jsonlite)
 
 v <- function(...) {
   cat(base::date(), sprintf(...), '\n', file=stderr())
 }
 
-setwd(sprintf('%s/workspace/gaplotr', Sys.getenv('HOME')))
+setwd(sprintf('%s/workspace', Sys.getenv('HOME')))
 
 v('Start initialization of gaplotr')
-gaplotr <- gaplotr::gaplotr('config.json')
+gaplotr <- gaplotr::gaplotr('config/gaplotr.json')
 v('End initialization of gaplotr')
 

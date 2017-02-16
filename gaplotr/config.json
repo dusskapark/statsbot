@@ -1,7 +1,0 @@
-{
-  "loglevel": "debug",
-  "plotter": {
-    "dir": "/home/ubuntu/workspace/public/figure",
-    "fontfamily": "NanumGothic"
-  }
-}

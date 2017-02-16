@@ -5,20 +5,21 @@
 
 v('plotr.R activated')
 
-setwd('/home/ubuntu/workspace/gaplotr')
-
 # 차트 그림파일을 생성해서 리턴하는 함수
-getChart <- function(json) {
+generateChart <- function(json) {
   v('generateChart() start: json = %s', json)
   
-  args <- fromJSON(json)
+  args <- fromJSON(json, simplifyVector = FALSE)
 
+#  print(args)
+#  print(args$ga_params)
+#  print(args$chart_params)
+  
   filename <- gaplotr$generateChart(
-    site.id = args$site_id,
-    type = args$type,
-    params = args$params,
-    title = args$title,
-    filename = args$filename)
+    ga_params = args$ga_params,
+    chart_params = args$chart_params,
+    query_params = args$query_params
+  )
 
   v('filename = %s', filename)
   
