@@ -37,11 +37,7 @@ jspm_packages
 .node_repl_history
 
 # custom
-
-src
+config/credentials.json
 cert
-logs
-
-# gaplotr
-gaplotr/cache
-gaplotr/sites
+cache
+public/figure

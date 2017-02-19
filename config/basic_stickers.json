@@ -1,0 +1,146 @@
+[{
+    "packageId": "1315121",
+    "stickers": [{
+        "stickerId": "12720518",
+        "type": "bar",
+        "title": "Users per yesterday",
+        "parameters": {
+            "metrics": ["ga:users", "ga:newUsers"],
+            "dimensions": "ga:date",
+            "start-date": "1daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720519",
+        "type": "bar",
+        "title": "Users per last week",
+        "parameters": {
+            "metrics": ["ga:users", "ga:newUsers"],
+            "dimensions": "ga:date",
+            "start-date": "7daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720520",
+        "type": "bar",
+        "title": "Users per last month",
+        "parameters": {
+            "metrics": ["ga:users", "ga:newUsers"],
+            "dimensions": "ga:date",
+            "start-date": "30daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720521",
+        "type": "bar",
+        "title": "bounceRate per yesterday",
+        "parameters": {
+            "metrics": ["ga:sessions", "ga:bounces", "ga:bounceRate"],
+            "dimensions": "ga:date",
+            "start-date": "1daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720522",
+        "type": "bar",
+        "title": "bounceRate per last week",
+        "parameters": {
+            "metrics": ["ga:sessions", "ga:bounces", "ga:bounceRate"],
+            "dimensions": "ga:date",
+            "start-date": "7daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720523",
+        "type": "bar",
+        "title": "bounceRate per last month",
+        "parameters": {
+            "metrics": ["ga:sessions", "ga:bounces", "ga:bounceRate"],
+            "dimensions": "ga:date",
+            "start-date": "30daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720524",
+        "type": "line",
+        "title": "ConversionRate per yesterday",
+        "parameters": {
+            "metrics": ["ga:goalStartsAll", "ga:goalCompletionsAll", "ga:goalAbandonsAll"],
+            "dimensions": "ga:date",
+            "start-date": "1daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720525",
+        "type": "line",
+        "title": "ConversionRate per last week",
+        "parameters": {
+            "metrics": ["ga:goalStartsAll", "ga:goalCompletionsAll", "ga:goalAbandonsAll"],
+            "dimensions": "ga:date",
+            "start-date": "7daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720526",
+        "type": "line",
+        "title": "ConversionRate per last month",
+        "parameters": {
+            "metrics": ["ga:goalStartsAll", "ga:goalCompletionsAll", "ga:goalAbandonsAll"],
+            "dimensions": "ga:date",
+            "start-date": "30daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720527",
+        "type": "line",
+        "title": "Pageviews per yesterday",
+        "parameters": {
+            "metrics": ["ga:pageviews", "ga:uniquePageviews", "ga:sessions"],
+            "dimensions": "ga:date",
+            "start-date": "1daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720528",
+        "type": "line",
+        "title": "Pageviews per last week",
+        "parameters": {
+            "metrics": ["ga:pageviews", "ga:uniquePageviews", "ga:sessions"],
+            "dimensions": "ga:date",
+            "start-date": "7daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720529",
+        "type": "line",
+        "title": "Pageviews per last month",
+        "parameters": {
+            "metrics": ["ga:pageviews", "ga:uniquePageviews", "ga:sessions"],
+            "dimensions": "ga:date",
+            "start-date": "30daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720530",
+        "type": "table",
+        "title": "Sessions per last week",
+        "parameters": {
+            "metrics": "ga:sessions",
+            "dimensions": "ga:day",
+            "start-date": "8daysAgo",
+            "end-date": "yesterday"
+        }
+    }, {
+        "stickerId": "12720531",
+        "type": "table",
+        "parameters": {
+            "metrics": "ga:uniquePageviews",
+            "dimensions": ["ga:keyword", "ga:pagePath", "ga:pageTitle", "ga:campaign", "ga:operatingSystem"],
+            "start-date": "30daysAgo",
+            "end-date": "yesterday",
+            "max-length": 10
+
+        }
+    }]
+
+}]

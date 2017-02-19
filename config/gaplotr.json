@@ -2,11 +2,11 @@
   "loglevel": "debug",
   "plotter": {
     "dir": "/home/ubuntu/workspace/public/figure",
-    "fontfamily": "NanumGothic"
+    "fontfamily": "Noto Sans Mono CJK KR"
   },
-  "ga": {
-    "client_id": "661617612438-3rifofvqh4aote9onth5r54acajbm0v3.apps.googleusercontent.com",
-    "client_secret": "axGGrwIkn5M9wVzn6fQWnyFK"
+  "auth": {
+    "client_id": "661617612438-lqg1nbg36lp2equ4t1f7gqfd9kr03er7.apps.googleusercontent.com",
+    "client_secret": "bEERXoOEaWQDojEa_18Qh2gw"
   },
   "cache": {
     "dir": "/home/ubuntu/workspace/cache/gaplotr"

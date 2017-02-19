@@ -14,7 +14,7 @@ global.__appRoot = path.resolve(__dirname);
 i18n.configure({
   locales: ['en', 'ja', 'ko'],
   directory: __dirname + '/locales',
-  register: global //global 단위의 레지스터
+  register: global
 });
 
 var app = express();

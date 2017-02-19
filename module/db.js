@@ -1,6 +1,8 @@
 /**
  * 데이터베이스 관리용 모듈.
  * 
+ * - fileAsync를 이용해 async mode로 데이터를 관리함.
+ * - 따라서 save()를 호출하는 쪽에서 then(), catch()를 구현해 주어야 함.
  */
 
 const lowdb = require('lowdb');
@@ -38,7 +40,9 @@ function user() {
       googleId: user.googleId
     });
 
-    return u.value() ? u.assign(user).write() : instance.users.push(user).last().write();
+    return u.value() ? 
+      u.assign(user).write() : 
+      instance.users.push(user).last().write();
   }
 
   return instance;
@@ -89,7 +93,36 @@ function chat() {
       c.assign(chat).write() :
       instance.chats.push(chat).last().write();
   }
+  
+  /**
+   * 
+   */
+  instance.getLocale = function(id) {
+    logger.debug('db.chat.getLocale(): chatid =', id);
+    try {
+      return instance.findByID(id).locale;
+    } catch (err) {
+      return 'en';
+    }
+  }
+  
+  /**
+   * 채팅방 주사용언어 변경
+   *
+   */
+  instance.changeLocale = function(lineId, locale) {
+    logger.info('chat.changeLocale()');
+    logger.debug('chat.js lineId:', lineId);
+    logger.debug('chat.js locale:', locale);
+    var c = instance.chats.find({
+      lineId: lineId
+    });
     
+    c.value() ?
+      c.assign({ locale: locale}).write() :
+      instance.chats.push({ lineId: lineId, locale: locale}).last().write()
+  }
+  
   return instance;
 }
 

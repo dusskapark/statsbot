@@ -12,20 +12,21 @@
 	"ja": "Japanese",
 	"ko": "Korean",
 	"howto": {
-		"title": "See how to ask Rookie!",
-		"text": "Rookie is your data management employee-chatbot! Send sticky or text to Rookie and bring in the data!"
+		"title": "How to ask Rookie!",
+		"text": "Send sticky or text to Rookie and bring in the data!"
 	},
 	"add": {
 		"title": "Add your Google Analytics account!",
-		"text": "Add new Google Analytics site to my list\nPlease copy and paste your Google analytics URL on this chatting room"
+		"text": "Please copy and paste your GA URL on this chatting room"
 	},
 	"init": {
-		"title":"Refresh chatting room!",
+		"title": "Refresh chatting room!",
 		"text": "Yes~ sir! I will refresh Google analytics list completely."
-	}, 
+	},
 	"sorry": {
 		"title": "I'm sorry TT",
-		"text": "I am really sorry TT There are many things I do not know yet. I will study more and better in the future!"
-		
-	}
+		"text": "I do not know how to help you. I will study more and better!"
+	},
+	"Auth completed": "Auth completed",
+	"Auth completed! Welcome,Jude Park": "Auth completed! Welcome,Jude Park"
 }
