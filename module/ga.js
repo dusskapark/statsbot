@@ -7,7 +7,12 @@
 
 const google = require('googleapis');
 const rio = require('rio');
+const spawn = require('child_process').spawn;
 
+const RSERVER_SCRIPT = 'scripts/start_rserver.R';
+
+var analytics = google.analytics('v3');
+var config = require('../config/credentials');
 var logger = require('../module/logger');
 var db = require('../module/db');
 
@@ -19,7 +24,7 @@ rio.enableDebug(false);
  *
  */
 function getChart(ga_params, chart_params, query_params) {
-  logger.info('getChart(): message = ', query_params);
+  logger.info(`ga:getChart(): ${ga_params}, ${chart_params}, ${query_params}`);
 
   return new Promise((resolve, reject) => {
     rio.e({
@@ -44,13 +49,41 @@ function getChart(ga_params, chart_params, query_params) {
   });
 }
 
-module.exports.getChart = getChart;
+/**
+ * Rserve를 구동
+ * 
+ * - module/gaplotr/env.R을 읽어들이고 Rscript process를 그대로 Rserve로 전환
+ * - child process의 STDOUT과 STDERR를 node로 연결
+ */
+function runServer() {
+  logger.info('ga:runServer()');
+  
+  var workdir = global.__appRoot + '/cache/Rserve';
+  var envfile = global.__appRoot + '/module/gaplotr/env.R';
+  var rscript = `library(Rserve); source('${envfile}'); run.Rserve(workdir = '${workdir}')`;
+
+  try {
+    var child = spawn('/usr/bin/Rscript', ['-e', rscript]);
+    child.stdout.pipe(process.stdout);
+    child.stderr.pipe(process.stderr);
+  } catch (err) {
+    logger.error('ga:runServer() error, ', err);
+  }
+}
+
+module.exports = {
+  getChart: getChart,
+  runServer: runServer
+};
 
 function getViewID(params) {
   // console.log('here: ' + JSON.stringify(params));
   return new Promise(function(resolve, reject) {
 
-    var oauth2Client = new OAuth2Client(CLIENT_ID, CLIENT_SECRET, REDIRECT_URL);
+    var oauth2Client = new google.auth.OAuth2(
+      config.google.web.client_id,
+      config.google.web.client_secret, 
+      '');
 
     oauth2Client.setCredentials({
       access_token: params.accessToken

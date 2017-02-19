@@ -1,0 +1,31 @@
+{
+	"Help message": "열심히 일하겠습니다! 저에게 시킬 수 있는 업무들은 아래와 같습니다.\n@lang: 언어를 선택해 주세요.\n@add: 제가 일할 Google Analytics 계정을 알려주세요.\n@init: 모든 목록을 초기화 하고 다시 시작합니다.",
+	"Set language": "@lang/ko 이런 식으로 알려주시면 제가 원하는 언어를 설정할 수 있습니다.\n아니면 모바일에서 확인하시면 간편합니다~!",
+	"language": {
+		"title": "언어설정",
+		"text": "선호하는 언어를 알려주세요."
+	},
+	"No auth token": "Access 토큰이 없습니다. Google 애널리틱스 보고서 URL을 복붙해서 알려주세요!",
+	"Unknown command": "모르는 command 명령어 입니다.",
+	"Language changed to %s": "알겠습니다! 지금부터는 %s를 사용하겠습니다!",
+	"en": "영어",
+	"ja": "일본어",
+	"ko": "한국어",
+	"howto": {
+		"title": "Rookie에게 업무를 시키세요!",
+		"text": "Rookie은 여러분의 데이터 관리 신입사원-chatbot 입니다!\nRookie에게 스티커 또는 텍스트를 보내고 데이터를 가져오십시오!"
+	},
+	"add": {
+		"title": "Google Analytics 계정을 추가하세요!",
+		"text": "원하시는 Google analytics 사이트를 저의 업무 목록에 추가해주세요.\nGA 페이지의 URL을채팅방에 복붙하시면 됩니다~"
+	},
+	"init": {
+		"title": "GA 목록을 초기화하세요!",
+		"text": "예~ 알겠습니다. 등록된  Google Analytics 목록을 초기화하겠습니다!"
+	},
+	"sorry": {
+		"title": "죄송합니다 ㅠㅠ",
+		"text": "정말 죄송합니다ㅠ 제가 아직 모르는 것들이 많이 있습니다. 앞으로 더 많이 공부해서 나아지겠습니다!"
+
+	}
+}

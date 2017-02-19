@@ -1,0 +1,31 @@
+{
+	"Help message": "Thank you for calling me, sir! Below are the orders you can give me:\n@lang: use the language you prefer (ex. @lang en or @lang ja or @lang ko)\n@add: add new Google Analytics site to my list\n@init: remove all sites from my list",
+	"Set language": "Please let me know the language your prefer like this way: @lang/en @lang/ja\nOr just check it on your mobile ~!",
+	"language": {
+		"title": "Set your language",
+		"text": "Please let me know the language your prefer"
+	},
+	"No auth token": "Sorry, sir! You didn't add any Google Analytics site yet. Please click https://analytics.google.com/ and send me back the URL displayed in your browser. I will add it myself!",
+	"Unknown command": "Unknown command",
+	"Language changed to %s": "Yes, sir! From now, I will use %s in this conversation!",
+	"en": "English",
+	"ja": "Japanese",
+	"ko": "Korean",
+	"howto": {
+		"title": "See how to ask Rookie!",
+		"text": "Rookie is your data management employee-chatbot! Send sticky or text to Rookie and bring in the data!"
+	},
+	"add": {
+		"title": "Add your Google Analytics account!",
+		"text": "Add new Google Analytics site to my list\nPlease copy and paste your Google analytics URL on this chatting room"
+	},
+	"init": {
+		"title":"Refresh chatting room!",
+		"text": "Yes~ sir! I will refresh Google analytics list completely."
+	}, 
+	"sorry": {
+		"title": "I'm sorry TT",
+		"text": "I am really sorry TT There are many things I do not know yet. I will study more and better in the future!"
+		
+	}
+}
