@@ -1,7 +1,9 @@
 const express = require('express');
 const passport = require('passport');
 const google = require('passport-google-oauth20').Strategy;
-const cookieParser = require('cookie-parser');
+const i18n = require('i18n');
+const actionBasic = require('./basic'); // 명령어 모음
+
 
 const SCOPES = [
   'https://www.googleapis.com/auth/userinfo.profile',
@@ -13,7 +15,6 @@ var credentials = require('../config/credentials.json');
 var logger = require('../module/logger');
 var line = require('../module/line');
 var db = require('../module/db');
-var basic = require('../route/basic');
 
 /**
  * 메인 진입점.
@@ -119,7 +120,7 @@ function setupRouter() {
       }
       else {
         res.send('<script>window.close()</script>');
-        line.push(source.lineId, line.text("이 채팅방은 UA-" + isNa.gaAccountId + "에 이미 연동되고 있습니다."));
+        line.push(source.lineId, line.text(__('Already added GA account: UA-%s', isNa.gaAccountId)));
       }
     },
     passport.authenticate('google', {
@@ -146,7 +147,9 @@ function setupRouter() {
         req.session.source)
       .then(chat => {
         res.send('<script>window.close()</script>');
-        line.push(chat.lineId, line.text("Done! Welcome " + req.session.passport.user.displayName));
+        line.push(chat.lineId, line.text(__("Auth completed! Welcome," + req.session.passport.user.displayName)));
+        line.push(chat.lineId, line.template(__("Set language"), actionBasic.setLanguage(__("language"))));
+
       })
       .catch(err => {
         logger.error('Error in writing chat', err);
